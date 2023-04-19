@@ -48,33 +48,35 @@ const DashboardPage = () => {
     };
   }, []);
 
-  let content=<p style={{textAlign:'center'}}>Loading.. Please wait</p>
-  if(!isLoading){
-    content= <>
-    <TaskNavigation />
-    {taskList.map((task) => (
-      <TaskItem
-        key={task.id}
-        id={task.id}
-        getTasks={getTasks}
-        title={task.item}
-        isCompleted={task.isCompleted}
-        userId={task.userId}
-        setIsLoading={setIsLoading}
-      />
-    ))}{" "}
-  </>
-  }
-  return (
-    <>
-      {authUser ? ( 
-        <>{content}
+  let content = <p style={{ textAlign: "center" }}>Loading.. Please wait</p>;
+  if (!isLoading) {
+    if (taskList.length > 0) {
+      content = (
+        <>
+          <TaskNavigation />
+          {taskList.map((task) => (
+            <TaskItem
+              key={task.id}
+              id={task.id}
+              getTasks={getTasks}
+              title={task.item}
+              isCompleted={task.isCompleted}
+              userId={task.userId}
+              setIsLoading={setIsLoading}
+            />
+          ))}{" "}
         </>
-      ) : (
-        <h1>Please sign in first</h1>
-      )}
-    </>
-  );
+      );
+    } else {
+      content = (
+        <>
+          <TaskNavigation />{" "}
+          <h1 style={{ textAlign: "center" }}>No tasks found</h1>
+        </>
+      );
+    }
+  }
+  return <>{authUser ? <>{content}</> : <h1>Please sign in first</h1>}</>;
 };
 
 export default DashboardPage;
