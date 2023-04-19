@@ -8,19 +8,21 @@ const TaskItem = (props) => {
 
   const {authUser}= useContext(UserContext);
   const deleteTaskHandler = async() => {
-    
+    props.setIsLoading(true);
     const id= props.id;
     await deleteDoc(doc(db, "tasks", id));
     props.getTasks(authUser.uid);
+    
   };
 
   const changeStatusHandler = async () => {
-    
+    props.setIsLoading(true);
     const id= props.id;
     const response= await updateDoc(doc(db, "tasks", id), {
       isCompleted: true
     });
     props.getTasks(authUser.uid);
+
 
    
   };

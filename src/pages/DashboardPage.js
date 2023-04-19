@@ -48,7 +48,7 @@ const DashboardPage = () => {
     };
   }, []);
 
-  let content=<p>Loading.. Please wait</p>
+  let content=<p style={{textAlign:'center'}}>Loading.. Please wait</p>
   if(!isLoading){
     content= <>
     <TaskNavigation />
@@ -60,6 +60,7 @@ const DashboardPage = () => {
         title={task.item}
         isCompleted={task.isCompleted}
         userId={task.userId}
+        setIsLoading={setIsLoading}
       />
     ))}{" "}
   </>
