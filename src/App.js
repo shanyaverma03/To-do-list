@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import RootLayout from "./pages/RootLayout";
+import HomePage from "./pages/Homepage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import DashboardPage from "./pages/DashboardPage";
+import ErrorPage from "./pages/ErrorPage";
+import { useState } from "react";
+import UserContext from "./store/user-context";
+import ModalContext from "./store/modal-context";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
+      {
+        path: "signup",
+        element: <SignupPage />,
+      },
+      {
+        path: "dashboard",
+        element: <DashboardPage />,
+      },
+    ],
+  },
+]);
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+  const [showModal, setShowModal]= useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ModalContext.Provider value={{showModal, setShowModal}}>
+      <UserContext.Provider
+        value={{
+          isLoggedIn,
+          setIsLoggedIn,
+          authUser,
+          setAuthUser,
+        }}
+      >
+        <RouterProvider router={router} />
+      </UserContext.Provider>
+    </ModalContext.Provider>
   );
 }
 
