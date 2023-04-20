@@ -1,5 +1,7 @@
+import TaskNavigation from "../components/TaskNavigation";
+
 const AddtaskPage=()=>{
-    return <h1>Add task page</h1>
+    return <TaskNavigation />
 }
 
 export default AddtaskPage;

@@ -8,6 +8,7 @@ import ErrorPage from "./pages/ErrorPage";
 import { useState } from "react";
 import UserContext from "./store/user-context";
 import ModalContext from "./store/modal-context";
+import AddtaskPage from "./pages/AddtaskPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,7 +30,13 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <DashboardPage />,
-      },
+        children:[
+          {
+            path:"add",
+            element: <AddtaskPage />
+          }
+        ]
+      },  
     ],
   },
 ]);
@@ -37,7 +44,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authUser, setAuthUser] = useState(null);
   const [showModal, setShowModal]= useState(false);
-
+  
   return (
     <ModalContext.Provider value={{showModal, setShowModal}}>
       <UserContext.Provider

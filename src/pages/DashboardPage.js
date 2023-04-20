@@ -2,32 +2,30 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore";
 import TaskItem from "../components/TaskItem";
 import UserContext from "../store/user-context";
 import TaskNavigation from "../components/TaskNavigation";
 
 const DashboardPage = () => {
-  //const [authUser, setAuthUser] = useState(null);
   const [taskList, setTaskList] = useState([]);
   const { setIsLoggedIn } = useContext(UserContext);
-  const { authUser, setAuthUser } = useContext(UserContext);
+  const { authUser, setAuthUser } =
+    useContext(UserContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   const getTasks = async (id) => {
-    //const data = await getDocs(tasksCollectionReference);
-
-    const q = query(collection(db, "tasks"), where("userId", "==", id));
-    const querySnapshot = await getDocs(q);
     const list = [];
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
+      const q = query(collection(db, "tasks"), where("userId", "==", id));
+      const querySnapshot = await getDocs(q);
 
-      list.push({ ...doc.data(), id: doc.id });
-      //console.log(list)
-    });
-    setTaskList(list);
+      querySnapshot.forEach((doc) => {
+        list.push({ ...doc.data(), id: doc.id });
+        //console.log(list)
+      });
+      setTaskList(list);
+    
     setIsLoading(false);
   };
 
